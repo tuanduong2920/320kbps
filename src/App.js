@@ -1,57 +1,47 @@
+import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
+import { Menu } from "@material-ui/icons";
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
 import './App.css';
+import 'fontsource-roboto';
+import SearchComponent from './components/Search/SearchComponent';
+import PlayerComponent from './components/Player/PlayerComponent';
+import { useSelector } from 'react-redux';
+import {songSelector} from './features/songSlice/songSlice'
+
+
 
 function App() {
+  const {currentSong} = useSelector(songSelector)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <div className="App-header">
+        <AppBar color="secondary">
+          <Toolbar>
+            <IconButton>
+              <Menu />
+            </IconButton>
+            <Typography variant="h5" component="h2">
+              320KBps
+              </Typography>
+          </Toolbar>
+        </AppBar>
+
+      </div>
+      <div className="app-main">
+        <Typography variant="h3" component="div" style={{ padding: "80px", fontWeight: 'bold', color: `whitesmoke` }}>Music with 320KBps</Typography>
+        <div className="search-component" >
+          <SearchComponent />
+        </div>
+        <div className="player-component">
+          <PlayerComponent  {...currentSong}/>
+        </div>
+      </div>
+      <div className="app-footer">
+      </div>
     </div>
+
+
   );
 }
 

@@ -22,8 +22,3 @@ input{
   color: whitesmoke !important;
   font-weight: bold !important;
 }
-.player-component{
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-}

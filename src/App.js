@@ -6,12 +6,12 @@ import 'fontsource-roboto';
 import SearchComponent from './components/Search/SearchComponent';
 import PlayerComponent from './components/Player/PlayerComponent';
 import { useSelector } from 'react-redux';
-import {songSelector} from './features/songSlice/songSlice'
+import { songSelector } from './features/songSlice/songSlice'
 
 
 
 function App() {
-  const {currentSong} = useSelector(songSelector)
+  const { currentSong } = useSelector(songSelector)
 
   return (
     <div className="App">
@@ -33,9 +33,9 @@ function App() {
         <div className="search-component" >
           <SearchComponent />
         </div>
-        <div className="player-component">
-          <PlayerComponent  {...currentSong}/>
-        </div>
+
+        <PlayerComponent  {...currentSong} />
+
       </div>
       <div className="app-footer">
       </div>

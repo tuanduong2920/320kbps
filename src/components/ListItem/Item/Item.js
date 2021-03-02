@@ -44,7 +44,12 @@ const Item = ({ name, artist, thumb, id }) => {
                         width: `100%`,
                         textOverflow: `ellipsis`
                     }} variant="h6" component="h6">{name}</Typography>
-                    <Typography style={{ fontSize: 14, textTransform: 'capitalize' }} variant="subtitle1">{artist}</Typography>
+                    <Typography style={{
+                        fontSize: 14, textTransform: 'capitalize', display: 'inline-block', whiteSpace: `nowrap`,
+                        overflow: `hidden`,
+                        width: `100%`,
+                        textOverflow: `ellipsis`
+                    }} variant="subtitle1">{artist}</Typography>
                     <Box display="flex" spacing={2} justifyContent='center'>
                         <IconButton aria-label="Play" onClick={() => playSong(id)} ><PlayCircleFilledIcon color="secondary" /></IconButton>
                         <IconButton aria-label="Add to playlist"><AddCircleIcon color="secondary" /></IconButton>

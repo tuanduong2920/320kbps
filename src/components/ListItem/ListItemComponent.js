@@ -1,4 +1,4 @@
-import { Grid, makeStyles } from "@material-ui/core";
+import { Box, Grid, makeStyles } from "@material-ui/core";
 import React, { useState } from "react";
 import Item from "./Item/Item";
 import Pagination from '@material-ui/lab/Pagination';
@@ -21,10 +21,11 @@ const useStyles = makeStyles({
 
 const ListItemComponent = ({ visibility, list }) => {
     const classes = useStyles();
-    const [currentPage,setCurrentPage] = useState(1)
+    const [currentPage,setCurrentPage] = useState(1);
+    
 
     //pagination
-    const itemInOnePage = 9;
+    const itemInOnePage = 10;
     const pageCount = Math.ceil(list.length / itemInOnePage);
 
     const start = (currentPage -1) * itemInOnePage;
@@ -43,15 +44,16 @@ const ListItemComponent = ({ visibility, list }) => {
 
                     {(listPagination.length > 0 ? (<>
                         <Grid container spacing={2} >
-                            {listPagination.map((i) => (<Item {...i}></Item>))}
+                            {listPagination.map((i) => (<Item key={i.id} {...i}></Item>))}
                         </Grid>
 
                         <Pagination className={classes.root} page={currentPage} onChange={paginationHandler} count={pageCount} color="secondary" />
 
                     </>
-                    ) : "No Result.")}
+                    ) : <Box margin={10} component="h4">No Result</Box>)}
 
                 </div>
+                
 
             </div>}
 

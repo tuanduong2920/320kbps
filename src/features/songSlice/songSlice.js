@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
-import { myProxy } from "../../env";
+import { localhost, myProxy } from "../../env";
 
 const songSlice = createSlice({
     name: "song",
@@ -13,7 +13,7 @@ const songSlice = createSlice({
         playList: []
     },
     reducers: {
-        playsong: (state, action) => {
+        addCurrentSong: (state, action) => {
             state.currentSong = { id: action.payload }
         },
         addSearchList: (state, action) => {
@@ -34,12 +34,8 @@ const songSlice = createSlice({
 //action creator
 export const getSongByName = (songName) => async (dispath) => {
     try {
-        const response = await axios.get(myProxy, {
-            headers: {
-                'Target-URL': `http://ac.mp3.zing.vn/complete?type=artist,song,key,code&num=500&query=${songName}`
-            }
-        });
-        console.log(response);
+        const response = await axios.get(`${myProxy}http://ac.mp3.zing.vn/complete?type=artist,song,key,code&num=500&query=${songName}`);
+        console.log("songList", response);
         if (response.status === 200) {
             dispath(addSearchList(response.data));
 
@@ -47,15 +43,18 @@ export const getSongByName = (songName) => async (dispath) => {
 
     }
     catch (e) {
-        console.log(e);
+        console.log('getSongErr', e);
     }
 }
+
+
+
 //reducer
 const songReducer = songSlice.reducer;
 
 
 export const songSelector = state => state.song;
 
-export const { playsong, addSearchList, visibilitySearchList } = songSlice.actions;
+export const { addCurrentSong, addSearchList, visibilitySearchList } = songSlice.actions;
 
 export default songReducer

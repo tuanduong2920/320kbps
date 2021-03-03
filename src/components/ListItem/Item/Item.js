@@ -4,7 +4,7 @@ import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import React from "react";
-import { playsong } from "../../../features/songSlice/songSlice";
+import { addCurrentSong} from "../../../features/songSlice/songSlice";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles({
@@ -28,7 +28,7 @@ const Item = ({ name, artist, thumb, id }) => {
     const dispath = useDispatch();
     const playSong = (id) => {
         console.log(id)
-        dispath(playsong(id));
+        dispath(addCurrentSong(id));
     }
 
     return (

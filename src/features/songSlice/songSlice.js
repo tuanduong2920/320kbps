@@ -34,7 +34,11 @@ const songSlice = createSlice({
 //action creator
 export const getSongByName = (songName) => async (dispath) => {
     try {
-        const response = await axios.get(`${myProxy}http://ac.mp3.zing.vn/complete?type=artist,song,key,code&num=500&query=${songName}`);
+        const response = await axios.get(localhost,{
+            headers:{
+                'Target-URL':`http://ac.mp3.zing.vn/complete?type=artist,song,key,code&num=500&query=${songName}`,
+            }
+        });
         console.log("songList", response);
         if (response.status === 200) {
             dispath(addSearchList(response.data));

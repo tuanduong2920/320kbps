@@ -2,7 +2,7 @@
 import React from "react";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
-import { myProxy } from "../../env";
+import { localhost, myProxy } from "../../env";
 
 import './Player.css';
 
@@ -10,7 +10,7 @@ const PlayerComponent = ({ id }) => {
 
 
 
-    const src = `${myProxy}http://api.mp3.zing.vn/api/streaming/audio/${id}/320`;
+    const src = `${localhost}/stream/?url=http://api.mp3.zing.vn/api/streaming/audio/${id}/320`;
     // console.log(src)
 
     return (

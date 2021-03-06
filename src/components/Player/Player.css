@@ -9,16 +9,7 @@
   width: 100%;
  
 }
-.rhap_progress-indicator{
-    color: #ffff;
-}
-.rhap_progress-filled,.rhap_volume-filled,.rhap_progress-indicator,.rhap_volume-indicator{
- color: #8684BF;
- background-color: #8684BF;
-}
-.rhap_volume-button,.rhap_main-controls-button,.rhap_repeat-button,.rhap_time{
-    color: #8684BF;
-}
-.rhap_progress-bar-show-download{
-    background-color: rgba(221, 221, 221, 0.829);
+
+.MuiSlider-root:hover .MuiSlider-thumb{
+    display: flex;
 }

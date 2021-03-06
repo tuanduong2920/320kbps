@@ -25,7 +25,7 @@ const ListItemComponent = ({ visibility, list }) => {
     
 
     //pagination
-    const itemInOnePage = 10;
+    const itemInOnePage = 12;
     const pageCount = Math.ceil(list.length / itemInOnePage);
 
     const start = (currentPage -1) * itemInOnePage;

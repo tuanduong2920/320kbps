@@ -2,21 +2,35 @@
 import React from "react";
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
-import { localhost, myProxy } from "../../env";
+import { myProxy } from "../../env";
+import { IoMdPlay, IoMdPause } from "react-icons/io";
+
 
 import './Player.css';
+import { Slider } from "@material-ui/core";
+import { withStyles } from "@material-ui/styles";
+
+const iconStyles = { width: `24px`, height: `24px` }
+
+const CustomSlier = withStyles({
+    thumb: {
+        display:'none',
+    }
+})(Slider);
 
 const PlayerComponent = ({ id }) => {
 
+    // const classes = useStyles();
 
 
-    const src = `${localhost}/stream/?url=http://api.mp3.zing.vn/api/streaming/audio/${id}/320`;
+    const src = `${myProxy}stream/?url=http://api.mp3.zing.vn/api/streaming/audio/${id}/320`;
     // console.log(src)
 
     return (
-      
+
         <div className="player-component">
-            <AudioPlayer
+            <audio src={src} autoPlay></audio>
+            {/* <AudioPlayer
                 
                 src={src}
                 onPlay={e => console.log("onPlay")}
@@ -30,7 +44,24 @@ const PlayerComponent = ({ id }) => {
                 customAdditionalControls={[]}
                 customVolumeControls={[]}
          
-            />
+            /> */}
+            <div className="audio-player-container">
+                <div className="audio-processing" >
+                    <CustomSlier color="secondary" />
+                </div>
+                <div className="song-info">
+                    <img></img>
+                    <div>
+                        <h3></h3>
+                        <h5></h5>
+                    </div>
+                </div>
+                <div className="action">
+
+                </div>
+                <IoMdPlay style={iconStyles} />
+                <IoMdPause style={iconStyles} />
+            </div>
         </div>
 
     )

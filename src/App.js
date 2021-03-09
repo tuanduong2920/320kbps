@@ -22,7 +22,7 @@ function App() {
             <IconButton>
               <Menu />
             </IconButton>
-            <Typography variant="h5" component="h2">
+            <Typography variant="h5" style={{color:'#ffff'}} component="h2">
               320KBps
               </Typography>
           </Toolbar>

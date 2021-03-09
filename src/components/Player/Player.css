@@ -1,15 +1,75 @@
-
-.rhap_container {
-    background-image: linear-gradient(to right,  #41295a, #2f0743) ;
+.audio-player-container {
+  position: relative;
 }
 
-.player-component{
+
+
+.player-component {
   position: fixed;
   bottom: 0;
   width: 100%;
- 
+
+  background-image: linear-gradient(to right, #41295a, #2f0743);
 }
 
-.MuiSlider-root:hover .MuiSlider-thumb{
-    display: flex;
+.MuiSlider-root:hover .MuiSlider-thumb {
+  display: flex;
+}
+
+.audio-player {
+  height: 68px;
+  /* width: 80%; */
+  margin: 0 auto;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.song-info {
+  width: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.song-info img {
+  width: 54px;
+  height: 54px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+
+.action {
+  width: 55%;
+  position: relative;
+}
+
+.action-icon {
+  width: 24px;
+  height: 24px;
+  color: #ffff;
+  padding: 6px;
+  opacity: 0.8;
+  margin: 0 4px 0 4px;
+  cursor: pointer;
+}
+
+.action-icon:hover {
+  opacity: 1;
+}
+
+.in-image {
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  opacity: 0.8;
+  margin: unset;
+}
+
+.song-info-string {
+  text-align: start;
+  width: 70%;
+  max-width: 300px;
+  margin-left: 8px !important;
+  padding: 4px;
 }

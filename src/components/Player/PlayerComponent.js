@@ -24,7 +24,9 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
-import { VolumeUp } from "@material-ui/icons";
+import { useDispatch } from "react-redux";
+import { nextSong as  nex } from '../../features/songSlice/songSlice';
+
 
 const CustomSlier = withStyles({
   root: {
@@ -49,9 +51,11 @@ const PlayerComponent = ({ id, name, thumb, artist }) => {
   const [isPlay, setPlay] = useState(false);
   const [isLoop, setLoop] = useState(false);
 
+  const dispath = useDispatch();
+
   const [volume, setVolume] = useState({
     show: false,
-    value: 0.5,
+    value: 1,
   });
 
   const audioRef = useRef();
@@ -95,11 +99,12 @@ const PlayerComponent = ({ id, name, thumb, artist }) => {
   };
 
   const handleEnded = () => {
-    if(isLoop) return;
-    
-
-
+    if (isLoop) return;
   };
+
+  const nextSong = () => {
+    dispath(nex())
+  }
 
   const src = `${myProxy}stream/?url=http://api.mp3.zing.vn/api/streaming/audio/${id}/320`;
 
@@ -185,39 +190,44 @@ const PlayerComponent = ({ id, name, thumb, artist }) => {
                   <IoMdPlay className="action-icon" />
                 )}
               </CustomIconButton>
-              <CustomIconButton size="medium">
+              <CustomIconButton size="medium" onClick={() => nextSong()}>
                 <IoMdSkipForward className="action-icon" />
               </CustomIconButton>
               <div style={{ position: "relative", display: "inline-block" }}>
                 <CustomIconButton size="medium" onClick={() => toggleVolume()}>
-                  <IoMdVolumeHigh className="action-icon"></IoMdVolumeHigh>
+                  {volume.value > 0.5 ? (
+                    <IoMdVolumeHigh className="action-icon"></IoMdVolumeHigh>
+                  ) : volume.value < 0.5 && volume.value > 0 ? (
+                    <IoMdVolumeLow className="action-icon"></IoMdVolumeLow>
+                  ) : (
+                    <IoMdVolumeMute className="action-icon"></IoMdVolumeMute>
+                  )}
                 </CustomIconButton>
 
-                {volume.show && (
-                  <Fade in={true} timeout={1000}>
-                    <span
-                      style={{
-                        position: "absolute",
-                        bottom: 40,
-                        left: 10,
-                        width: 28,
-                        height: 90,
-                        borderRadius: `50px`,
-                        background: "whitesmoke",
-                        padding: " 12px 0px ",
-                      }}
-                    >
-                      <Slider
-                        orientation="vertical"
-                        color="secondary"
-                        value={volume.value}
-                        max={1}
-                        step={0.01}
-                        onChange={(event, value) => handleChangeVolume(value)}
-                      />
-                    </span>
-                  </Fade>
-                )}
+                <Fade in={volume.show} timeout={1000}>
+                  <span
+                    style={{
+                      position: "absolute",
+                      bottom: 40,
+                      left: 10,
+                      width: 28,
+                      height: 90,
+                      borderRadius: `50px`,
+                      background: "whitesmoke",
+                      padding: " 12px 0px ",
+                    }}
+                  >
+                    <Slider
+                      style={{ padding: `0 13px` }}
+                      orientation="vertical"
+                      color="secondary"
+                      value={volume.value}
+                      max={1}
+                      step={0.01}
+                      onChange={(event, value) => handleChangeVolume(value)}
+                    />
+                  </span>
+                </Fade>
               </div>
 
               {/* <IoMdVolumeLow style={iconStyles} />

@@ -1,48 +1,36 @@
-import { AppBar, IconButton, Toolbar, Typography } from '@material-ui/core';
-import { Menu } from "@material-ui/icons";
-import React from 'react';
-import './App.css';
-import 'fontsource-roboto';
-import SearchComponent from './components/Search/SearchComponent';
-import PlayerComponent from './components/Player/PlayerComponent';
-import { useSelector } from 'react-redux';
-import { songSelector } from './features/songSlice/songSlice'
-
-
+import React from "react";
+import "./App.css";
+import "fontsource-roboto";
+import SearchComponent from "./components/Search/SearchComponent";
+import PlayerComponent from "./components/Player/PlayerComponent";
+import { useSelector } from "react-redux";
+import { songSelector } from "./features/songSlice/songSlice";
+import AppHeader from "./components/AppHeader/Appheader";
+import { Typography } from "@material-ui/core";
 
 function App() {
-  const { currentSong } = useSelector(songSelector)
-
+  const { currentSong, queueList } = useSelector(songSelector);
 
   return (
     <div className="App">
-      <div className="App-header">
-        <AppBar color="secondary">
-          <Toolbar>
-            <IconButton>
-              <Menu />
-            </IconButton>
-            <Typography variant="h5" style={{color:'#ffff'}} component="h2">
-              320KBps
-              </Typography>
-          </Toolbar>
-        </AppBar>
+      <AppHeader playlist={queueList} />
 
-      </div>
       <div className="app-main">
-        <Typography variant="h3" component="div" style={{ padding: "80px", fontWeight: 'bold', color: `whitesmoke` }}>Music with 320KBps</Typography>
-        <div className="search-component" >
+        <Typography
+          variant="h3"
+          component="div"
+          style={{ padding: "80px", fontWeight: "bold", color: `whitesmoke` }}
+        >
+          Music with 320KBps
+        </Typography>
+        <div className="search-component">
           <SearchComponent />
         </div>
 
-        <PlayerComponent  {...currentSong} />
-
+        <PlayerComponent {...currentSong} />
       </div>
-      <div className="app-footer">
-      </div>
+      <div className="app-footer"></div>
     </div>
-
-
   );
 }
 

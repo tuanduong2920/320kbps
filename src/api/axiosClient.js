@@ -3,7 +3,7 @@ import queryString from "query-string";
 
 const axiosClient = axios.create({
   headers: {
-    "content-type": "application/json",
+    "content-type": "application/json"
   },
   paramsSerializer: (params) => queryString.stringify(params),
 });

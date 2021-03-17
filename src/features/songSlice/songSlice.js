@@ -17,16 +17,53 @@ export const getSongByName = createAsyncThunk(
 const songSlice = createSlice({
   name: "song",
   initialState: {
-    currentSong: {},
+    currentSong: null,
     searchList: {
       list: [],
       visibility: false,
     },
-    playList: [],
+    queueList: [],
   },
   reducers: {
     addCurrentSong: (state, action) => {
       state.currentSong = action.payload;
+    },
+    addQueueAndPlay: (state, action) => {
+      state.currentSong = action.payload;
+      let arr = [...state.queueList];
+      const itemIndex = arr.findIndex((i) => i.id === action.payload.id);
+
+      if (itemIndex !== -1) {
+        state.queueList = arr;
+        return;
+      }
+      arr.unshift(action.payload);
+      state.queueList = arr;
+    },
+    addQueue: (state, action) => {
+      let arr = [...state.queueList];
+      const itemIndex = arr.findIndex((i) => i.id === action.payload.id);
+
+      if (itemIndex !== -1) {
+        return;
+      }
+      arr.push(action.payload);
+      state.queueList = arr;
+    },
+    removeSong: (state, action) => {
+      let arr = [...state.queueList];
+      const itemIndex = arr.findIndex((i) => i.id === action.payload);
+      arr = [...arr.slice(0, itemIndex), ...arr.slice(itemIndex + 1)];
+      state.queueList = arr;
+    },
+    nextSong: (state) => {
+      if (state.currentSong === null) return;
+      const currentSongIndex = state.queueList.findIndex(
+        (i) => i.id === state.currentSong.id
+      );
+
+      if (state.queueList[currentSongIndex + 1] === undefined) return;
+      state.currentSong = state.queueList[currentSongIndex + 1];
     },
     addSearchList: (state, action) => {
       const { data } = action.payload;
@@ -58,22 +95,6 @@ const songSlice = createSlice({
   },
 });
 
-//action creator
-// export const getSongByName = (songName) => async (dispath) => {
-//     try {
-//         const response = await axios.get(`${httpProxy}fetch/http://ac.mp3.zing.vn/complete?type=artist,song,key,code&num=500&query=${songName}`)
-//         console.log("songList", response);
-//         if (response.status === 200) {
-//             dispath(addSearchList(response.data));
-
-//         }
-
-//     }
-//     catch (e) {
-//         console.log('getSongErr', e);
-//     }
-// }
-
 //reducer
 const songReducer = songSlice.reducer;
 
@@ -83,6 +104,10 @@ export const {
   addCurrentSong,
   addSearchList,
   visibilitySearchList,
+  addQueue,
+  addQueueAndPlay,
+  nextSong,
+  removeSong,
 } = songSlice.actions;
 
 export default songReducer;

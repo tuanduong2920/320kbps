@@ -11,7 +11,7 @@ import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import React from "react";
-import { addCurrentSong } from "../../../features/songSlice/songSlice";
+import { addQueueAndPlay as addAndPlay, addQueue as aq } from "../../../features/songSlice/songSlice";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles({
@@ -30,10 +30,14 @@ const Item = ({ name, artist, thumb, id }) => {
   const classes = useStyles();
 
   const dispath = useDispatch();
-  const playSong = () => {
+  const addQueueAndPlay = () => {
     const currentSong = { id, name, artist, thumb };
-    dispath(addCurrentSong(currentSong));
+    dispath(addAndPlay(currentSong));
   };
+  const addQueue = () =>{
+    const currentSong = { id, name, artist, thumb };
+    dispath(aq(currentSong));
+  }
 
   return (
     <Zoom
@@ -81,10 +85,10 @@ const Item = ({ name, artist, thumb, id }) => {
               {artist}
             </Typography>
             <Box display="flex" spacing={2} justifyContent="center">
-              <IconButton aria-label="Play" onClick={() => playSong()}>
+              <IconButton aria-label="Play" onClick={() => addQueueAndPlay()}>
                 <PlayCircleFilledIcon color="secondary" />
               </IconButton>
-              <IconButton aria-label="Add to playlist">
+              <IconButton aria-label="Add to playlist" onClick={() => addQueue()}>
                 <AddCircleIcon color="secondary" />
               </IconButton>
               <IconButton aria-label="Download">

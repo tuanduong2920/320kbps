@@ -1,31 +1,15 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-import { SearchbyName } from "../../api/zmp3/SongApi";
-
-export const getSongByName = createAsyncThunk(
-  "song/getSongByName",
-  async (songName) => {
-    try {
-      const response = await SearchbyName(songName);
-      return response;
-    } catch (error) {
-      throw error;
-    }
-  }
-);
 
 const songSlice = createSlice({
   name: "song",
   initialState: {
     currentSong: null,
-    searchList: {
-      list: [],
-      visibility: false,
-    },
     queueList: [],
   },
   reducers: {
     addCurrentSong: (state, action) => {
+      
       state.currentSong = action.payload;
     },
     addQueueAndPlay: (state, action) => {
@@ -49,6 +33,7 @@ const songSlice = createSlice({
       }
       arr.push(action.payload);
       state.queueList = arr;
+      console.log(state.queueList);
     },
     removeSong: (state, action) => {
       let arr = [...state.queueList];
@@ -65,35 +50,17 @@ const songSlice = createSlice({
       if (state.queueList[currentSongIndex + 1] === undefined) return;
       state.currentSong = state.queueList[currentSongIndex + 1];
     },
-    addSearchList: (state, action) => {
-      const { data } = action.payload;
-      if (data === undefined || data.length === 0) {
-        state.searchList.list = [];
-        return;
-      }
-
-      state.searchList.list = data[0].song ? data[0].song : [];
-    },
-    visibilitySearchList: (state) => {
-      state.searchList.visibility = true;
-    },
-  },
-  extraReducers: {
-    [getSongByName.fulfilled]: (state, action) => {
-      const data = action.payload;
-      if (
-        data[0] === undefined ||
-        data[0].length === 0 ||
-        data[0].song === undefined
-      ) {
-        state.searchList.list = [];
-        return;
-      }
-
-      state.searchList.list = data[0].song ? data[0].song : [];
-    },
+    preSong: (state, action) => {
+      if (state.currentSong === null) return;
+      const currentSongIndex = state.queueList.findIndex(
+        (i) => i.id === state.currentSong.id
+      );
+      if (state.queueList[currentSongIndex - 1] === undefined) return;
+      state.currentSong = state.queueList[currentSongIndex - 1];
+    }
   },
 });
+
 
 //reducer
 const songReducer = songSlice.reducer;
@@ -102,11 +69,10 @@ export const songSelector = (state) => state.song;
 
 export const {
   addCurrentSong,
-  addSearchList,
-  visibilitySearchList,
   addQueue,
   addQueueAndPlay,
   nextSong,
+  preSong,
   removeSong,
 } = songSlice.actions;
 

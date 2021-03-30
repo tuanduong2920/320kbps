@@ -1,36 +1,45 @@
 import React from "react";
 import "./App.css";
 import "fontsource-roboto";
-import SearchComponent from "./components/Search/SearchComponent";
-import PlayerComponent from "./components/Player/PlayerComponent";
+import Routes from "./router";
+
 import { useSelector } from "react-redux";
 import { songSelector } from "./features/songSlice/songSlice";
 import AppHeader from "./components/AppHeader/Appheader";
-import { Typography } from "@material-ui/core";
+// import ZingMp3 from "./Page/ZingMp3/ZingMp3";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Suspense } from "react";
+import PlayerComponent from "./components/Player/PlayerComponent";
+import { CircularProgress  } from "@material-ui/core";
 
 function App() {
-  const { currentSong, queueList } = useSelector(songSelector);
+  const { queueList, currentSong } = useSelector(songSelector);
 
   return (
-    <div className="App">
-      <AppHeader playlist={queueList} />
+    <Router basename="320kbps" >
+      <div className="App">
+        <AppHeader playlist={queueList} />
 
-      <div className="app-main">
-        <Typography
-          variant="h3"
-          component="div"
-          style={{ padding: "80px", fontWeight: "bold", color: `whitesmoke` }}
-        >
-          Music with 320KBps
-        </Typography>
-        <div className="search-component">
-          <SearchComponent />
+        <div className="app-main">
+          <Suspense fallback={<CircularProgress  color="secondary" ></CircularProgress >}>
+            <Switch>
+              {Routes.map((route) => (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  component={route.component}
+                  exact={route.exact}
+                />
+              ))}
+            </Switch>
+          </Suspense>
+
+          <PlayerComponent {...currentSong} />
+          {/* <ZingMp3></ZingMp3> */}
         </div>
-
-        <PlayerComponent {...currentSong} />
+        <div className="app-footer"></div>
       </div>
-      <div className="app-footer"></div>
-    </div>
+    </Router>
   );
 }
 

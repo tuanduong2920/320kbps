@@ -1,17 +1,7 @@
-import {
-  makeStyles,
-  LinearProgress,
-  Box,
-  TextField,
-} from "@material-ui/core";
+import { makeStyles, LinearProgress, Box, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import ListItemComponent from "../ListItem/ListItemComponent";
-import {
-  songSelector,
-  visibilitySearchList,
-  getSongByName,
-} from "../../features/songSlice/songSlice";
-import { useDispatch, useSelector } from "react-redux";
+
 
 const useStyles = makeStyles({
   root: {
@@ -21,14 +11,12 @@ const useStyles = makeStyles({
   },
 });
 
-const SearchComponent = () => {
+const SearchComponent = ({ list, visibility , getSongByName, visibilitySearchList}) => {
   const [searchString, setSearchString] = useState("");
   const [loading, setLoading] = useState(false);
   const classes = useStyles();
 
-  const dispath = useDispatch();
 
-  const { searchList } = useSelector(songSelector);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -40,8 +28,8 @@ const SearchComponent = () => {
       return;
     }
 
-    await dispath(getSongByName(search_key));
-    await dispath(visibilitySearchList());
+    await getSongByName(search_key);
+    await visibilitySearchList();
 
     setLoading(false);
 
@@ -71,10 +59,12 @@ const SearchComponent = () => {
             <LinearProgress style={{ width: `80%` }} color="secondary" />
           </Box>
         ) : (
-            <ListItemComponent
-              {...searchList}
-              loading={loading}
-            ></ListItemComponent>
+          <ListItemComponent
+            list={list}
+            visibility={visibility}
+            // {...searchList}
+            loading={loading}
+          ></ListItemComponent>
         )}
       </div>
     </>

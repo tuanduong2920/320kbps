@@ -1,7 +1,4 @@
-import React, { useRef, useState } from "react";
-
-import "react-h5-audio-player/lib/styles.css";
-import { myProxy } from "../../env";
+import React, { useEffect, useRef, useState } from "react";
 import {
   IoMdPlay,
   IoMdPause,
@@ -25,8 +22,10 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import { useDispatch } from "react-redux";
-import { nextSong as  nex } from '../../features/songSlice/songSlice';
-
+import {
+  nextSong as nex,
+  preSong as pre,
+} from "../../features/songSlice/songSlice";
 
 const CustomSlier = withStyles({
   root: {
@@ -45,13 +44,13 @@ const CustomIconButton = withStyles({
   },
 })(IconButton);
 
-const PlayerComponent = ({ id, name, thumb, artist }) => {
+const PlayerComponent = ({ src, name, thumb, artist }) => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isPlay, setPlay] = useState(false);
   const [isLoop, setLoop] = useState(false);
 
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   const [volume, setVolume] = useState({
     show: false,
@@ -68,8 +67,9 @@ const PlayerComponent = ({ id, name, thumb, artist }) => {
   };
 
   const handleTimeSliderChange = (e, v) => {
+    console.log(v);
     audioRef.current.currentTime = v;
-    setCurrentTime(v);
+    // setCurrentTime(v);
     if (!isPlay) {
       setPlay(true);
       audioRef.current.play();
@@ -103,12 +103,16 @@ const PlayerComponent = ({ id, name, thumb, artist }) => {
   };
 
   const nextSong = () => {
-    dispath(nex())
-  }
+    dispatch(nex());
+  };
 
-  const src = `${myProxy}stream/?url=http://api.mp3.zing.vn/api/streaming/audio/${id}/320`;
+  const preSong = () => {
+    dispatch(pre());
+  };
 
-  return id !== undefined ? (
+  // const src = `${myProxy}stream/?url=http://api.mp3.zing.vn/api/streaming/audio/${id}/320`;
+
+  return src !== undefined ? (
     <Fade in={true}>
       <div className="player-component">
         <audio
@@ -132,12 +136,7 @@ const PlayerComponent = ({ id, name, thumb, artist }) => {
           <Container className="audio-player" maxWidth="lg">
             <Grid item sm={6} className="song-info">
               <Box display="flex" position="relative" className="img-thub">
-                <img
-                  src={
-                    "https://photo-resize-zmp3.zadn.vn/w94_r1x1_jpeg/" + thumb
-                  }
-                  alt="pre-img"
-                />
+                <img src={thumb} alt="pre-img" />
                 <IoMdRepeat
                   onClick={() => toggleLoop()}
                   style={isLoop ? { color: `#f50057` } : {}}
@@ -179,7 +178,7 @@ const PlayerComponent = ({ id, name, thumb, artist }) => {
               </Grid>
             </Grid>
             <Grid item sm={6} className="action">
-              <CustomIconButton size="medium">
+              <CustomIconButton size="medium" onClick={() => preSong()}>
                 <IoMdSkipBackward className="action-icon" />
               </CustomIconButton>
               {/* <IoMdPlay style={iconStyles} /> */}

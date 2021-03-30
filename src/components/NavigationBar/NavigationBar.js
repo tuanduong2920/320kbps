@@ -1,10 +1,7 @@
-import {
-  SwipeableDrawer,
-} from "@material-ui/core";
+import { SwipeableDrawer } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React from "react";
 // import { IoMdPause, IoMdPlay, IoMdRemove } from "react-icons/io";
-
 
 const useStyles = makeStyles({
   list: {
@@ -12,7 +9,10 @@ const useStyles = makeStyles({
   },
   fullList: {
     width: "auto",
-  }
+  },
+  navColor: {
+    backgroundColor: `#424242`,
+  },
 });
 
 const NavigationBar = ({ anchor, isShow, setShowList, children }) => {
@@ -43,6 +43,9 @@ const NavigationBar = ({ anchor, isShow, setShowList, children }) => {
         open={isShow}
         onClose={toggleDrawer(false)}
         onOpen={toggleDrawer(true)}
+        classes={{
+          paper:classes.navColor
+        }}
       >
         {list()}
       </SwipeableDrawer>

@@ -12,17 +12,19 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
+
 import { IoMdMusicalNote } from "react-icons/io";
 import { makeStyles } from "@material-ui/core/styles";
 import NavigationBar from "../NavigationBar/NavigationBar";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import RemoveIcon from "@material-ui/icons/Remove";
-import { IoIosCellular } from "react-icons/io";
 import {
   addCurrentSong as adcrs,
   removeSong as rm,
 } from "../../features/songSlice/songSlice";
 import { useDispatch } from "react-redux";
+import Router from "../../router";
+import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: `nowrap`,
     overflow: `hidden`,
     textOverflow: `ellipsis`,
+    color: `#fff`,
   },
 }));
 
@@ -47,17 +50,16 @@ const AppHeader = ({ playlist }) => {
   const [isShowList, setShowList] = useState(false);
   const [isShowNav, setShowNav] = useState(false);
 
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   const classes = useStyles();
 
-  const addCurrentSong = ({ id, artist, thumb, name }) => {
-    const crs = { id, artist, thumb, name };
-    dispath(adcrs(crs));
+  const addCurrentSong = (item) => {
+    dispatch(adcrs(item));
   };
 
   const removeSong = (id) => {
-    dispath(rm(id));
+    dispatch(rm(id));
   };
 
   return (
@@ -94,27 +96,20 @@ const AppHeader = ({ playlist }) => {
             isShow={isShowNav}
           >
             <List>
-              {playlist !== undefined &&
-                playlist.map((item, index) => (
-                  <ListItem button key={index}>
-                    <ListItemIcon>
-                      <PlayArrowIcon />
-                    </ListItemIcon>
+              {Router.map((item, index) => (
+                <NavLink key={index} to={item.path}>
+                  <ListItem button style={{ color: `#fff` }}>
+                    <ListItemIcon>{item.icon}</ListItemIcon>
                     <ListItemText
                       classes={{
                         primary: classes.textOver,
                         secondary: classes.textOver,
                       }}
                       primary={item.name}
-                      secondary={item.sub ? item.sub : null}
                     />
-                    <ListItemSecondaryAction>
-                      <IconButton edge="end" aria-label="delete">
-                        <RemoveIcon />
-                      </IconButton>
-                    </ListItemSecondaryAction>
                   </ListItem>
-                ))}
+                </NavLink>
+              ))}
             </List>
             <Divider />
           </NavigationBar>
@@ -125,11 +120,13 @@ const AppHeader = ({ playlist }) => {
             isShow={isShowList}
           >
             <List>
-              {console.log(playlist)}
               {playlist.length > 0 ? (
                 playlist.map((item, index) => (
                   <ListItem button key={index}>
-                    <ListItemIcon onClick={() => addCurrentSong(item)}>
+                    <ListItemIcon
+                      onClick={() => addCurrentSong(item)}
+                      style={{ color: `#fff` }}
+                    >
                       <PlayArrowIcon />
                     </ListItemIcon>
                     <ListItemText
@@ -146,6 +143,7 @@ const AppHeader = ({ playlist }) => {
                         onClick={() => removeSong(item.id)}
                         edge="end"
                         aria-label="delete"
+                        style={{ color: `#fff` }}
                       >
                         <RemoveIcon />
                       </IconButton>

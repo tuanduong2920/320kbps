@@ -13,7 +13,7 @@ export const SearchbyName = async (string) => {
     );
   
     return response.data
-    // dispath(addSearchList(response.data));
+   
   } catch (error) {
     throw error
   }

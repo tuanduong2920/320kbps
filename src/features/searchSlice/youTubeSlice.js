@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { SearchByName } from "../../api/youtube/YouTubeApi";
-import { localhost } from "../../env";
+import { myProxy } from "../../env";
 
 export const getSongByName = createAsyncThunk(
   "youTube/getSongByName",
@@ -13,7 +13,7 @@ export const getSongByName = createAsyncThunk(
           name: i.snippet.title,
           artist: i.snippet.channelTitle,
           thumb: i.snippet.thumbnails.medium.url,
-          src:`${localhost}yt/audio/?id=${i.id.videoId}`
+          src:`${myProxy}yt/audio/?id=${i.id.videoId}`
         };
       });
 

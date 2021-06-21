@@ -9,13 +9,6 @@ const router = [
     icon: <ImMusic fontSize={25} style={{color:`#fff`}} />,
   },
   {
-    path: "/sound-cloud",
-    component: lazy(() => import("./Page/SoundCloud/SoundCloud")),
-    exact: true,
-    name: "Sound Cloud",
-    icon: <ImSoundcloud fontSize={25} style={{color:`#fff`}} />,
-  },
-  {
     path: "/you-tube",
     component: lazy(() => import("./Page/YouTube/YouTube")),
     exact: true,
